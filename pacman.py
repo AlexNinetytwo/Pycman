@@ -10,7 +10,7 @@ class Pacman(Entity):
         self.color = (255,255,0)
         self.points = 0
         self.radius = 15
-        self.eating_sound = pygame.mixer.Sound("C:\programming\pythongames\pacman\sounds\pacman_chomp.wav")
+        self.eating_sound = pygame.mixer.Sound("sounds/pacman_chomp.wav")
         self.x = self.pos[0] * self.width + self.radius
         self.y = self.pos[1] * self.height + self.radius
         self.openes = 0

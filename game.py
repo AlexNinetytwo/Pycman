@@ -16,7 +16,7 @@ class Game:
         self.clock = pygame.time.Clock()
         # World
         self.map = Map(self)
-        self.map.extract_white_pixel_coords("C:\programming\pythongames\pacman\levels\lvl2.png")
+        self.map.extract_white_pixel_coords("levels/lvl2.png")
         self.map.draw()
         self.foods = []
         self.stroke_food()
