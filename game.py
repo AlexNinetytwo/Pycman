@@ -16,7 +16,7 @@ class Game:
         self.clock = pygame.time.Clock()
         # World
         self.map = Map(self)
-        self.map.extract_white_pixel_coords("levels/lvl2.png")
+        self.map.extract_white_pixel_coords("levels/lvl1.png")
         self.map.draw()
         self.foods = []
         self.stroke_food()
@@ -54,7 +54,7 @@ class Game:
     def check(self):
 
         for enemy in self.enemies:
-            enemy.control()
+            enemy.chase()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

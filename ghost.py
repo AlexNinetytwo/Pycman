@@ -1,6 +1,8 @@
 from entity import Entity
 import pygame
 import random
+import math
+import time
 
 
 class Ghost(Entity):
@@ -10,6 +12,9 @@ class Ghost(Entity):
     def __init__(self, game):
         super().__init__(game)
         self.direction_time = random.randint(5, 100)
+        self.next_direction = "right"
+        self.old_pos = self.pos
+        self.old_direction = ""
 
     def recalc_pos(self):
         self.x = self.pos[0] * self.width
@@ -30,3 +35,53 @@ class Ghost(Entity):
 
     def animation(self):
         pass
+
+    def chase(self):
+        grid_pos = self._px_cord_to_grid_cord()
+        if grid_pos[0] == self.pos[0] and grid_pos[1] == self.pos[1]:
+            self_x = self.pos[0]
+            self_y = self.pos[1]
+            possible = {"up":0,"down":0,"left":0,"right":0}
+            # Get possible directions
+            def get_relative_cords(cords, x_or_y_as_index, offset):
+                changed = cords[x_or_y_as_index] + offset
+                new_cords = (cords[0], changed) if x_or_y_as_index else (changed, cords[1])
+                return new_cords
+            cords = (self_x, self_y)
+            offset = -1
+            i = 0
+            dir_amount = 0
+            for dir in possible:
+                x_or_y = i < 2
+                neighbor = get_relative_cords(cords, x_or_y, offset)
+                if neighbor in self.game.map.way:
+                    possible[dir] = neighbor
+                    dir_amount += 1
+                offset *= -1
+                i += 1
+            #time.sleep(1)
+
+            # Look for shorter way to target
+            if dir_amount > 1:
+                min_distance = 9999
+                for dir in possible:
+                    if possible[dir] == 0:
+                        continue
+
+                    x = possible[dir][0]
+                    y = possible[dir][1]
+                    target_x = self.game.pacman.pos[0]
+                    target_y = self.game.pacman.pos[1]
+                    if x == target_x:
+                        distance = abs(y - target_y)
+                    elif y == target_y:
+                        distance = abs(x - target_x)
+                    else:
+                        distance = math.sqrt(abs(x - target_x) * abs(y - target_y))
+                        distance *= 1.5
+                    print(dir, distance)
+                    #pygame.draw.line(self.game.screen,(255,255,255),(x*self.width+15,y*self.width+15),(target_x*self.width+15,target_y*self.width+15))
+                    if distance < min_distance and possible[dir] != self.old_pos:
+                        min_distance = distance
+                        self.direction = dir
+                self.old_pos = self.pos
