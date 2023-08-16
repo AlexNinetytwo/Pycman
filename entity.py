@@ -89,6 +89,9 @@ class Entity(ABC):
             elif grid_pos[0] < self.pos[0]:
                 self.x += self.speed
                 self.moving = True
+            elif self._change_side(self.pos[0]+1):
+                self.x += self.speed
+                self.moving = True
             else:
                 self.moving = False
       
@@ -98,6 +101,9 @@ class Entity(ABC):
                     self.x -= self.speed
                     self.moving = True           
             elif grid_pos[0] > self.pos[0]:
+                self.x -= self.speed
+                self.moving = True
+            elif self._change_side(self.pos[0]-1):
                 self.x -= self.speed
                 self.moving = True
             else:
@@ -130,3 +136,13 @@ class Entity(ABC):
         if cords in self.game.map.way:
             return False
         return True
+    
+    def _change_side(self, next_x):
+        grid_width = self.game.map.tiles
+        if next_x == grid_width:
+            self.x = 0
+            return True
+        elif next_x == -1:
+            self.x = self.game.window_size[0]
+            return True
+        return False

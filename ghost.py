@@ -67,7 +67,6 @@ class Ghost(Entity):
                 for dir in possible:
                     if possible[dir] == 0:
                         continue
-
                     x = possible[dir][0]
                     y = possible[dir][1]
                     target_x = self.game.pacman.pos[0]
@@ -77,11 +76,21 @@ class Ghost(Entity):
                     elif y == target_y:
                         distance = abs(x - target_x)
                     else:
-                        distance = math.sqrt(abs(x - target_x) * abs(y - target_y))
-                        distance *= 1.5
-                    print(dir, distance)
-                    #pygame.draw.line(self.game.screen,(255,255,255),(x*self.width+15,y*self.width+15),(target_x*self.width+15,target_y*self.width+15))
+                        x_square = abs(x - target_x) * abs(x - target_x)
+                        y_square = abs(y - target_y) * abs(y - target_y)
+                        distance = math.sqrt(x_square + y_square)
                     if distance < min_distance and possible[dir] != self.old_pos:
                         min_distance = distance
                         self.direction = dir
+                    #     self._show_distance((x, y), distance, (0, 255, 0))
+                    # else:
+                    #     self._show_distance((x, y), distance, (255, 0 ,0))
                 self.old_pos = self.pos
+
+    def _show_distance(self, pos, distance, color):
+        distance = round(distance, 2)
+        font = pygame.font.Font(None, 18)
+        render = font.render(str(distance), True, color)
+        x = pos[0] * self.width
+        y = pos[1] * self.height
+        self.game.screen.blit(render, (x, y))

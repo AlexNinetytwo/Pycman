@@ -6,7 +6,8 @@ class Map:
     
     def __init__(self, game):
         self.window_size = game.window_size
-        self.grid = int(game.window_size[0] / 25)
+        self.tiles = 25
+        self.grid = int(game.window_size[0] / self.tiles)
         self.screen = game.screen
         self.color = (0,0,0)
         self.way = []

@@ -4,6 +4,7 @@ from pacman import Pacman
 from map import Map
 from food import Food
 from ghost import Ghost
+from hud import Hud
 
 
 class Game:
@@ -12,7 +13,8 @@ class Game:
         pygame.init()
         self.window_size = window_size
         self.screen = pygame.display.set_mode(self.window_size)
-        self.screen.fill((0,0,64))
+        self.color = (0,0,64)
+        self.screen.fill(self.color)
         self.clock = pygame.time.Clock()
         # World
         self.map = Map(self)
@@ -21,13 +23,16 @@ class Game:
         self.foods = []
         self.stroke_food()
         # Pacman
-        self.pacman = Pacman(self)     
+        self.pacman = Pacman(self)
+        # Hud
+        self.hud = Hud(self)
         # Enemies
         self.enemies = []
-        for i in range(3):
+        for i in range(2):
             self.enemies.append(Ghost(self))
         
     def update(self):
+        print(self.pacman.next_direction)
         if self.pacman.alive:
             pygame.display.update()
             self.clock.tick(60)
@@ -45,6 +50,7 @@ class Game:
         elif self.pacman.heath > 0:
             self.pacman.heath -= 1
             self.pacman.alive = True
+            self.hud.update()
             for enemy in self.enemies:
                 enemy.restart()
             self.pacman.restart()
