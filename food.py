@@ -3,6 +3,7 @@ import pygame
 class Food:
        
     def __init__(self, game, x, y):
+        self.is_super = False
         self.game = game
         self.width = game.map.grid
         self.height = game.map.grid

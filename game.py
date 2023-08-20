@@ -5,6 +5,7 @@ from map import Map
 from food import Food
 from ghost import Ghost
 from hud import Hud
+from superFood import SuperFood
 
 
 class Game:
@@ -18,24 +19,23 @@ class Game:
         self.clock = pygame.time.Clock()
         # World
         self.map = Map(self)
-        self.map.extract_white_pixel_coords("levels/lvl1.png")
+        self.map.extract_white_pixel_coords("levels/lvl3.png")
         self.map.draw()
-        self.foods = []
-        self.stroke_food()
+        self.food = [Food(self, place[0], place[1]) for place in self.map.way]
+        self.food += [SuperFood(self, "cherry") for i in range(8)]
         # Pacman
         self.pacman = Pacman(self)
         # Hud
         self.hud = Hud(self)
         # Enemies
-        self.enemies = []
-        for i in range(2):
-            self.enemies.append(Ghost(self))
+        self.enemies = [Ghost(self, "red_ghost") for i in range(12)]
         
+        
+       
     def update(self):
-        print(self.pacman.next_direction)
         if self.pacman.alive:
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(180)
             # World
             self.draw_food()
             # Pacman
@@ -55,12 +55,10 @@ class Game:
                 enemy.restart()
             self.pacman.restart()
 
-
-        
     def check(self):
 
         for enemy in self.enemies:
-            enemy.chase()
+            enemy.mode()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -69,13 +67,9 @@ class Game:
                 self.pacman.control(event)
 
         self.pacman.touch_enemy()
-                
-
-    def stroke_food(self):
-        for place in self.map.way:
-            self.foods.append(Food(self, place[0], place[1]))
 
     def draw_food(self):
-        for food in self.foods:
+        for food in self.food:
             food.draw()
+
             

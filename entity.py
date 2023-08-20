@@ -52,6 +52,8 @@ class Entity(ABC):
         tiles = self.width #or hight
         grid_x = (px_x - offset) / tiles
         grid_y = (px_y - offset) / tiles
+        grid_x = round(grid_x, 1)
+        grid_y = round(grid_y, 1)
         return (grid_x, grid_y)
     
     def move(self):
@@ -82,8 +84,7 @@ class Entity(ABC):
                 self.next_direction = ""
 
       if self.direction == "right":
-            if not self._collision((self.pos[0]+1, grid_pos[1])):
-                self.y = self.pos[1] * self.height + self.radius             
+            if not self._collision((self.pos[0]+1, grid_pos[1])):            
                 self.x += self.speed
                 self.moving = True      
             elif grid_pos[0] < self.pos[0]:
@@ -96,8 +97,7 @@ class Entity(ABC):
                 self.moving = False
       
       elif self.direction == "left":
-            if not self._collision((self.pos[0]-1, grid_pos[1])):
-                    self.y = self.pos[1] * self.height + self.radius             
+            if not self._collision((self.pos[0]-1, grid_pos[1])):             
                     self.x -= self.speed
                     self.moving = True           
             elif grid_pos[0] > self.pos[0]:
@@ -110,8 +110,7 @@ class Entity(ABC):
                 self.moving = False
       
       elif self.direction == "down":
-            if not self._collision((grid_pos[0], self.pos[1]+1)):
-                self.x = self.pos[0] * self.height + self.radius             
+            if not self._collision((grid_pos[0], self.pos[1]+1)):             
                 self.y += self.speed
                 self.moving = True           
             elif grid_pos[1] < self.pos[1]:
@@ -121,8 +120,7 @@ class Entity(ABC):
                 self.moving = False
       
       elif self.direction == "up":
-            if not self._collision((grid_pos[0], self.pos[1]-1)):
-                self.x = self.pos[0] * self.height + self.radius             
+            if not self._collision((grid_pos[0], self.pos[1]-1)):             
                 self.y -= self.speed
                 self.moving = True           
             elif grid_pos[1] > self.pos[1]:
@@ -131,7 +129,6 @@ class Entity(ABC):
             else:
                 self.moving = False
         
-         
     def _collision(self, cords):
         if cords in self.game.map.way:
             return False
@@ -141,8 +138,12 @@ class Entity(ABC):
         grid_width = self.game.map.tiles
         if next_x == grid_width:
             self.x = 0
+            grid_pos = self._px_cord_to_grid_cord()
+            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
             return True
         elif next_x == -1:
             self.x = self.game.window_size[0]
+            grid_pos = self._px_cord_to_grid_cord()
+            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
             return True
         return False

@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from entity import Entity
 import math
+import time
+
 
 class Pacman(Entity):
 
@@ -16,6 +18,7 @@ class Pacman(Entity):
         self.y = self.pos[1] * self.height + self.radius
         self.openes = 0
         self.heath = 3
+        self.super = False
         
     def draw(self):
         pygame.draw.circle(self.game.screen, self.color, (self.x,self.y), 15.0)  
@@ -74,13 +77,28 @@ class Pacman(Entity):
         return rotated_points
 
     def eat_food(self):
-        for food in self.game.foods:
+        for food in self.game.food:
             if food.pos == self.pos:
                 self.eating_sound.play()
                 self.points += 1
-                self.game.foods.remove(food)
+                self.super = True if food.is_super else False
+                if self.super:
+                    for enemy in self.game.enemies:
+                        enemy.mode = enemy.frightened
+                        enemy.time = round(time.perf_counter())
+                        enemy.turn_direction()
+                self.game.food.remove(food)
+                self.game.hud.update()   
+                
 
     def touch_enemy(self):
         for enemy in self.game.enemies:
             if self.pos == enemy.pos:
-                self.alive = False
+                if enemy.mode == enemy.chase:
+                    # self.alive = False
+                    pass
+                elif enemy.mode == enemy.frightened:
+                    # enemy.killed()
+                    # self.game.enemies.remove(enemy)
+                    # del enemy
+                    pass
