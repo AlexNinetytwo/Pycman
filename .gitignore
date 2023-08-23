@@ -1,2 +1,3 @@
 .idea
-pycmanenv
+venv
+__pycache__
