@@ -19,23 +19,21 @@ class Game:
         self.clock = pygame.time.Clock()
         # World
         self.map = Map(self)
-        self.map.extract_white_pixel_coords("levels/lvl3.png")
+        self.map.extract_white_pixel_coords("levels/lvl4.png")
         self.map.draw()
         self.food = [Food(self, place[0], place[1]) for place in self.map.way]
-        self.food += [SuperFood(self, "cherry") for i in range(8)]
+        self.food += [SuperFood(self, "cherry") for i in range(4)]
         # Pacman
         self.pacman = Pacman(self)
         # Hud
         self.hud = Hud(self)
         # Enemies
-        self.enemies = [Ghost(self, "red_ghost") for i in range(12)]
-        
-        
-       
+        self.enemies = [Ghost(self, "red_ghost") for i in range(3)]
+
     def update(self):
         if self.pacman.alive:
             pygame.display.update()
-            self.clock.tick(180)
+            self.clock.tick(60)
             # World
             self.draw_food()
             # Pacman

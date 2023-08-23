@@ -95,10 +95,10 @@ class Pacman(Entity):
         for enemy in self.game.enemies:
             if self.pos == enemy.pos:
                 if enemy.mode == enemy.chase:
-                    # self.alive = False
+                    self.alive = False
                     pass
                 elif enemy.mode == enemy.frightened:
-                    # enemy.killed()
-                    # self.game.enemies.remove(enemy)
-                    # del enemy
+                    enemy.killed()
+                    self.game.enemies.remove(enemy)
+                    del enemy
                     pass
