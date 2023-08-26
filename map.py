@@ -1,5 +1,4 @@
 import pygame
-import random
 from PIL import Image
 
 class Map:
@@ -23,11 +22,11 @@ class Map:
         image = Image.open(image_path)
 
         # convert the image into an L-mode-image (8-Bit-greyscale)
-        image = image.convert("L")
+        image = image.convert("RGB")
         for y in range(image.height):
             for x in range(image.width):
                 pixel = image.getpixel((x, y))
-                if pixel == 255:
+                if pixel == (255,255,255):
                     self.way.append((x, y))
 
         self.mirrow()

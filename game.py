@@ -6,6 +6,7 @@ from food import Food
 from ghost import Ghost
 from hud import Hud
 from superFood import SuperFood
+from pinkGhost import PinkGhost
 
 
 class Game:
@@ -28,7 +29,8 @@ class Game:
         # Hud
         self.hud = Hud(self)
         # Enemies
-        self.enemies = [Ghost(self, "red_ghost") for i in range(3)]
+        self.enemies = [Ghost(self, "red_ghost")]
+        self.enemies.append(PinkGhost(self, "pink_ghost"))
 
     def update(self):
         if self.pacman.alive:
