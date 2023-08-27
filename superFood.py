@@ -18,7 +18,7 @@ class SuperFood:
         self.y = self.pos[1] * self.height
         self.spritesheet = Spritesheet("images/spritesheet1.png")
 
-    def __del__(self):
+    def clear(self):
         pygame.draw.rect(self.game.screen, (0,0,0), (self.x, self.y, self.width, self.height))
     
     def generate_pos(self):

@@ -46,12 +46,10 @@ class Entity(ABC):
         self.recalc_pos()
        
     def _px_cord_to_grid_cord(self) -> tuple:
-        px_x = self.x
-        px_y = self.y
         offset = self.radius
-        tiles = self.width #or hight
-        grid_x = (px_x - offset) / tiles
-        grid_y = (px_y - offset) / tiles
+        tiles = self.width
+        grid_x = (self.x - offset) / tiles
+        grid_y = (self.y - offset) / tiles
         grid_x = round(grid_x, 1)
         grid_y = round(grid_y, 1)
         return (grid_x, grid_y)

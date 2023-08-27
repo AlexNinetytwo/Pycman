@@ -58,6 +58,7 @@ class Ghost(Entity):
 
 
     def frightened(self):
+        self.speed = 1
         grid_pos = self._px_cord_to_grid_cord()
         if grid_pos[0] == self.pos[0] and grid_pos[1] == self.pos[1]:
             possible, dir_amount = self.choose_direction()
@@ -74,11 +75,19 @@ class Ghost(Entity):
                         self.direction = dir
                 self.old_pos = self.pos
         if round(time.perf_counter()) > self.time + 10:
+            if self.x % 2: self.x += 1
+            if self.y % 2: self.y += 1
+            self.speed = 2
             self.mode = self.chase
 
     def chase(self):
+        print(f'next_direction: {self.next_direction}')
+        print(f'moving: {self.moving}')
+        print(self.x, self.y)
+        print(self.pos)
         grid_pos = self._px_cord_to_grid_cord()
-        if grid_pos[0] == self.pos[0] and grid_pos[1] == self.pos[1]:
+        print(f'gird_pos: {grid_pos}')
+        if self.pos == grid_pos:
             possible, dir_amount = self.choose_direction()
             if dir_amount > 1:
                 min_distance = 9999

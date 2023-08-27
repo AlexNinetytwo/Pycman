@@ -22,11 +22,11 @@ class Map:
         image = Image.open(image_path)
 
         # convert the image into an L-mode-image (8-Bit-greyscale)
-        image = image.convert("RGB")
+        image = image.convert("L")
         for y in range(image.height):
             for x in range(image.width):
                 pixel = image.getpixel((x, y))
-                if pixel == (255,255,255):
+                if pixel == 255:
                     self.way.append((x, y))
 
         self.mirrow()

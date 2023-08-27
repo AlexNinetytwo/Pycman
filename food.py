@@ -13,6 +13,9 @@ class Food:
         self.y = y * self.height + 15
         self.color = (255,255,0)
 
+    def clear(self):
+        pygame.draw.circle(self.game.screen, (0,0,0), (self.x, self.y), self.radius)
+
     def draw(self):
         pygame.draw.circle(self.game.screen, (0,0,0), (self.x, self.y), self.radius)
         pygame.draw.circle(self.game.screen, self.color, (self.x, self.y), self.radius)
