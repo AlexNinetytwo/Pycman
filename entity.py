@@ -86,7 +86,6 @@ class Entity(ABC):
                 self.x += self.speed
                 self.moving = True      
             elif grid_pos[0] < self.pos[0]:
-                print(f'right: grid: {grid_pos[0]} pos: {self.pos[0]}')
                 self.x += self.speed
                 self.moving = True
             elif self._change_side(self.pos[0]+1):

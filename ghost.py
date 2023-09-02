@@ -128,22 +128,6 @@ class Ghost(Entity):
         distance = math.sqrt(x_square + y_square)
         return distance
     
-    def calc_old_pos(self):
-        x, y = self.pos[0], self.pos[1]
-        match self.direction:
-            case "up":
-                if (x, y+1) in self.game.map.way:
-                    self.old_pos = (x, y+1)
-            case "down":
-                if (x, y-1) in self.game.map.way:
-                    self.old_pos = (x, y-1)
-            case "left":
-                if (x+1, y) in self.game.map.way:
-                    self.old_pos = (x+1, y)
-            case "right":
-                if (x-1, y) in self.game.map.way:
-                    self.old_pos = (x-1, y)
-    
     def turn_direction(self):
         self.old_pos = self.pos
         match self.direction:
