@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from entity import Entity
 import math
-import time
 
 
 class Pacman(Entity):
@@ -86,8 +85,6 @@ class Pacman(Entity):
                     print("jammy")
                     for enemy in self.game.enemies:
                         enemy.mode = enemy.frightened
-                        enemy.time = round(time.perf_counter())
-                        enemy.turn_direction()
                 self.game.food.remove(food)
                 self.game.hud.update()   
                 

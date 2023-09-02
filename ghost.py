@@ -22,6 +22,7 @@ class Ghost(Entity):
         self.frame = 0
         self.mode = self.chase
         self.time = round(time.perf_counter())
+        self.is_frightened = False
 
     def killed(self):
         pygame.draw.rect(self.game.screen, (0,0,0), (self.x, self.y, self.width, self.height))
@@ -58,6 +59,10 @@ class Ghost(Entity):
 
 
     def frightened(self):
+        if not self.is_frightened:
+            self.time = round(time.perf_counter())
+            self.turn_direction()
+            self.is_frightened = True
         self.speed = 1
         grid_pos = self._px_cord_to_grid_cord()
         if grid_pos[0] == self.pos[0] and grid_pos[1] == self.pos[1]:
@@ -77,9 +82,11 @@ class Ghost(Entity):
         if round(time.perf_counter()) > self.time + 10:
             if self.x % 2: self.x += 1
             if self.y % 2: self.y += 1
+            self.recalc_pos()
             self.speed = 2
             self.mode = self.chase
-            self.recalc_pos()
+            self.is_frightened = False
+            
 
     def chase(self):
         grid_pos = self._px_cord_to_grid_cord()
