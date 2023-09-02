@@ -46,14 +46,12 @@ class Entity(ABC):
         self.recalc_pos()
        
     def _px_cord_to_grid_cord(self) -> tuple:
-        px_x = self.x
-        px_y = self.y
         offset = self.radius
-        tiles = self.width #or hight
-        grid_x = (px_x - offset) / tiles
-        grid_y = (px_y - offset) / tiles
-        grid_x = round(grid_x, 1)
-        grid_y = round(grid_y, 1)
+        tiles = self.width
+        grid_x = (self.x - offset) / tiles
+        grid_y = (self.y - offset) / tiles
+        grid_x = round(grid_x, 2)
+        grid_y = round(grid_y, 2)
         return (grid_x, grid_y)
     
     def move(self):
@@ -139,11 +137,13 @@ class Entity(ABC):
         if next_x == grid_width:
             self.x = 0
             grid_pos = self._px_cord_to_grid_cord()
-            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.recalc_pos()
             return True
         elif next_x == -1:
             self.x = self.game.window_size[0]
             grid_pos = self._px_cord_to_grid_cord()
-            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.recalc_pos()
             return True
         return False
