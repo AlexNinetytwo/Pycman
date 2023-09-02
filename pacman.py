@@ -83,6 +83,7 @@ class Pacman(Entity):
                 self.points += 1
                 self.super = True if food.is_super else False
                 if food.is_super:
+                    print("jammy")
                     for enemy in self.game.enemies:
                         enemy.mode = enemy.frightened
                         enemy.time = round(time.perf_counter())

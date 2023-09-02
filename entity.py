@@ -50,8 +50,8 @@ class Entity(ABC):
         tiles = self.width
         grid_x = (self.x - offset) / tiles
         grid_y = (self.y - offset) / tiles
-        grid_x = round(grid_x, 1)
-        grid_y = round(grid_y, 1)
+        grid_x = round(grid_x, 2)
+        grid_y = round(grid_y, 2)
         return (grid_x, grid_y)
     
     def move(self):
@@ -86,6 +86,7 @@ class Entity(ABC):
                 self.x += self.speed
                 self.moving = True      
             elif grid_pos[0] < self.pos[0]:
+                print(f'right: grid: {grid_pos[0]} pos: {self.pos[0]}')
                 self.x += self.speed
                 self.moving = True
             elif self._change_side(self.pos[0]+1):
