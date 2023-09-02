@@ -138,11 +138,13 @@ class Entity(ABC):
         if next_x == grid_width:
             self.x = 0
             grid_pos = self._px_cord_to_grid_cord()
-            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.recalc_pos()
             return True
         elif next_x == -1:
             self.x = self.game.window_size[0]
             grid_pos = self._px_cord_to_grid_cord()
-            self.old_pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.pos = (round(grid_pos[0]), round(grid_pos[1])) # So the ghosts don't turn
+            self.recalc_pos()
             return True
         return False
