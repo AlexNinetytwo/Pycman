@@ -17,7 +17,8 @@ class Game:
         self.screen = pygame.display.set_mode(self.window_size)
         self.color = (0,0,64)
         self.clock = pygame.time.Clock()
-        self.fill_game("levels/lvl1.png")
+        self.level = 1
+        self.fill_game(f"levels/lvl{self.level}.png")
          
     def fill_game(self, lvl):
         self.screen.fill(self.color)
@@ -32,8 +33,9 @@ class Game:
         # Hud
         self.hud = Hud(self)
         # Enemies
-        self.enemies = [Ghost(self, "red_ghost") for i in range(1)]
-        #self.enemies.append(PinkGhost(self, "pink_ghost"))
+        self.enemies = [Ghost(self, "red_ghost") for i in range(3)]
+        self.enemies.append(PinkGhost(self, "pink_ghost"))
+        self.enemies.append(PinkGhost(self, "pink_ghost"))
 
     def update(self):
         # Debug
@@ -73,7 +75,8 @@ class Game:
         self.pacman.touch_enemy()
 
         if self.pacman.points == self.food_amount:
-            self.fill_game("levels/lvl2.png")
+            self.level += 1
+            self.fill_game(f"levels/lvl{self.level}.png")
 
 
     def draw_food(self):
